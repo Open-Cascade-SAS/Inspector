@@ -223,7 +223,7 @@ void View_Widget::SaveState(View_Widget*            theWidget,
                             QMap<QString, QString>& theItems,
                             const QString&          thePrefix)
 {
-  theItems[thePrefix + "fitall"] = theWidget->ViewAction(View_ViewActionType_FitAllId)->isChecked();
+  theItems[thePrefix + "fitall"] = QString::number(theWidget->ViewAction(View_ViewActionType_FitAllId)->isChecked());
   theItems[thePrefix + "dispmode"] = QString::number(theWidget->DisplayMode());
 }
 
@@ -393,7 +393,11 @@ Aspect_VKeyMouse View_Widget::keyMouse(const int theButtonId)
       return Aspect_VKeyMouse_LeftButton;
     case Qt::RightButton:
       return Aspect_VKeyMouse_RightButton;
+    #if QT_VERSION < QT_VERSION_CHECK(5, 0, 0)
     case Qt::MidButton:
+    #else
+    case Qt::MiddleButton:
+    #endif
       return Aspect_VKeyMouse_MiddleButton;
     default:
       break;

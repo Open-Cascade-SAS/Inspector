@@ -38,7 +38,11 @@ VInspector_ToolBar::VInspector_ToolBar(QWidget* theParent)
   myMainWindow = new QWidget(theParent);
 
   QHBoxLayout* aLay = new QHBoxLayout(myMainWindow);
+  #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0) || QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
+  aLay->setContentsMargins(0, 0, 0, 0);
+  #else
   aLay->setMargin(0);
+  #endif
   for (QMap<VInspector_ToolActionType, QPushButton*>::ConstIterator anActionsIt =
          myActionsMap.begin();
        anActionsIt != myActionsMap.end();

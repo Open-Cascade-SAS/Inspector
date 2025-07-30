@@ -6,7 +6,22 @@ macro (FIND_QT_PACKAGE PROJECT_LIBRARIES_DEBUG PROJECT_LIBRARIES_RELEASE PROJECT
     message (FATAL_ERROR "Empty Qt dir")
   endif()
 
-  if (${Qt5_FOUND})
+  if (${Qt6_FOUND})
+    #message (STATUS "Qt5 cmake configuration")
+
+    set(PROJECT_INCLUDES "${Qt6Widgets_INCLUDE_DIRS}" "${Qt6Quick_INCLUDE_DIRS}" "${Qt6Xml_INCLUDE_DIRS}")
+    set(PROJECT_LIBRARIES_DEBUG "${Qt6Widgets_LIBRARIES}" "${Qt6Quick_LIBRARIES}" "${Qt6Xml_LIBRARIES}")
+    set(PROJECT_LIBRARIES_RELEASE "${Qt6Widgets_LIBRARIES}" "${Qt6Quick_LIBRARIES}" "${Qt6Xml_LIBRARIES}")
+
+    # processing *.ts files to generate *.qm
+    find_package(Qt6LinguistTools)
+    get_target_property(QT_LRELEASE_EXECUTABLE Qt6::lrelease LOCATION)
+    mark_as_advanced(QT_LRELEASE_EXECUTABLE)
+
+    GET_FILENAME_COMPONENT(QT_BINARY_DIR ${QT_LRELEASE_EXECUTABLE} DIRECTORY)
+    MARK_AS_ADVANCED(QT_BINARY_DIR)
+
+  elseif (${Qt5_FOUND})
     #message (STATUS "Qt5 cmake configuration")
 
     set(PROJECT_INCLUDES "${Qt5Widgets_INCLUDE_DIRS}" "${Qt5Quick_INCLUDE_DIRS}" "${Qt5Xml_INCLUDE_DIRS}")
@@ -42,7 +57,9 @@ macro (FIND_AND_WRAP_MOC_FILES HEADER_FILES GENERATED_MOC_FILES)
     file(STRINGS "${FILE}" LINES REGEX "Q_OBJECT")
     if(LINES)
       unset (MOC_FILE)
-      if (${Qt5_FOUND})
+      if (${Qt6_FOUND})
+        qt6_wrap_cpp(MOC_FILE ${FILE})
+      elseif (${Qt5_FOUND})
         qt5_wrap_cpp(MOC_FILE ${FILE})
       else()
         qt4_wrap_cpp(MOC_FILE ${FILE})
@@ -56,7 +73,9 @@ endmacro()
 
 macro (FIND_AND_WRAP_RESOURCE_FILE RESOURCE_FILE_NAME RCC_FILES)
   if(EXISTS "${RESOURCE_FILE_NAME}")
-    if (${Qt5_FOUND})
+    if (${Qt6_FOUND})
+      qt6_add_resources(RCC_FILES "${RESOURCE_FILE_NAME}")
+    elseif (${Qt5_FOUND})
       qt5_add_resources(RCC_FILES "${RESOURCE_FILE_NAME}")
     else()
       qt4_add_resources(RCC_FILES "${RESOURCE_FILE_NAME}")

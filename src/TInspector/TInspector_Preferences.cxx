@@ -121,8 +121,11 @@ void TInspector_Preferences::loadPreferences()
     return;
 
   QDomDocument aDomDocument;
-  bool         aResult = aDomDocument.setContent(&aFile);
-  aFile.close();
+  #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+  bool aResult = bool(aDomDocument.setContent(&aFile));
+  #else
+  bool aResult = aDomDocument.setContent(&aFile);
+  #endif
   if (!aResult)
     return;
 

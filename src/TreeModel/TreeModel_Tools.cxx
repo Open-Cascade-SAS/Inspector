@@ -25,7 +25,11 @@
 #include <QFontMetrics>
 #include <QHeaderView>
 #include <QObject>
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+#include <QRegularExpression>
+#else
 #include <QRegExp>
+#endif
 #include <QStringList>
 #include <QStyle>
 #include <QTreeView>
@@ -61,7 +65,11 @@ QByteArray TreeModel_Tools::ToByteArray(const QString& theValue)
 
   QString aValue = theValue.mid(11, theValue.size() - 12);
 #include <Standard_WarningsDisable.hxx>
+  #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+  QStringList lst = aValue.split(QRegularExpression("[\\s|,]"), Qt::SkipEmptyParts);
+  #else
   QStringList lst = aValue.split(QRegExp("[\\s|,]"), QString::SkipEmptyParts);
+  #endif
 #include <Standard_WarningsRestore.hxx>
   for (QStringList::ConstIterator aByteId = lst.begin(); aByteId != lst.end(); ++aByteId)
   {
@@ -180,7 +188,7 @@ int TreeModel_Tools::GetTextWidth(const QString& theText, QObject*)
   QFontMetrics aFontMetrics(QApplication::font());
   QRect        aBoundingRect = aFontMetrics.boundingRect(theText);
 #include <Standard_WarningsDisable.hxx>
-  return qMax(aBoundingRect.width(), aFontMetrics.width(theText)) + aTextMargin * 2;
+  return qMax(aBoundingRect.width(), aFontMetrics.horizontalAdvance(theText)) + aTextMargin * 2;
 #include <Standard_WarningsRestore.hxx>
 }
 

@@ -48,7 +48,7 @@ QAction* ViewControl_Tools::CreateAction(const QString& theText,
 void ViewControl_Tools::SetWhiteBackground(QWidget* theControl)
 {
   QPalette aPalette = theControl->palette();
-  aPalette.setColor(QPalette::All, QPalette::Foreground, Qt::white);
+  aPalette.setColor(QPalette::All, QPalette::WindowText, Qt::white);
   theControl->setPalette(aPalette);
 }
 

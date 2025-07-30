@@ -156,7 +156,11 @@ void TInspector_OpenFileDialog::GetPluginRecentlyOpenedFiles(
     if (!anItemIt.Key().IsEqual("recently_opened_files"))
       continue;
 #include <Standard_WarningsDisable.hxx>
+    #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    theFileNames = QString(anItemIt.Value().ToCString()).split(";", Qt::SkipEmptyParts);
+    #else
     theFileNames = QString(anItemIt.Value().ToCString()).split(";", QString::SkipEmptyParts);
+    #endif
 #include <Standard_WarningsRestore.hxx>
     if (theFileNames.size() > RECENT_FILES_CACHE_SIZE)
       for (int i = 0; i < theFileNames.size() - RECENT_FILES_CACHE_SIZE; i++)

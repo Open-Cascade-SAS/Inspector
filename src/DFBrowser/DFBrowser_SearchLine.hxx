@@ -27,6 +27,7 @@
 #include <QFrame>
 #include <QLineEdit>
 #include <Standard_WarningsRestore.hxx>
+#include <QStringList>
 
 class DFBrowser_Module;
 class DFBrowser_SearchLineModel;
@@ -34,7 +35,7 @@ class DFBrowser_SearchLineModel;
 class QAbstractItemModel;
 class QLineEdit;
 class QToolButton;
-class QStringList;
+// class QStringList;
 
 //! \class DFBrowser_SearchLine
 //! It contains a line edit control with auto completion and search button
