@@ -126,6 +126,7 @@ void TInspector_Preferences::loadPreferences()
   #else
   bool aResult = aDomDocument.setContent(&aFile);
   #endif
+  aFile.close();
   if (!aResult)
     return;
 

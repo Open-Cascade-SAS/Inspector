@@ -204,9 +204,9 @@ DFBrowser_Window::DFBrowser_Window()
   QWidget*     aDumpWidget = new QWidget(myMainWindow);
   QVBoxLayout* aDumpLay    = new QVBoxLayout(aDumpWidget);
   #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0) || QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
-  aLay->setContentsMargins(0, 0, 0, 0);
+  aDumpLay->setContentsMargins(0, 0, 0, 0);
   #else
-  aLay->setMargin(0);
+  aDumpLay->setMargin(0);
   #endif
   myDumpView = new DFBrowser_DumpView(aDumpWidget);
   aDumpLay->addWidget(myDumpView->GetControl());

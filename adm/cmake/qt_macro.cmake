@@ -7,7 +7,7 @@ macro (FIND_QT_PACKAGE PROJECT_LIBRARIES_DEBUG PROJECT_LIBRARIES_RELEASE PROJECT
   endif()
 
   if (${Qt6_FOUND})
-    #message (STATUS "Qt5 cmake configuration")
+    #message (STATUS "Qt6 cmake configuration")
 
     set(PROJECT_INCLUDES "${Qt6Widgets_INCLUDE_DIRS}" "${Qt6Quick_INCLUDE_DIRS}" "${Qt6Xml_INCLUDE_DIRS}")
     set(PROJECT_LIBRARIES_DEBUG "${Qt6Widgets_LIBRARIES}" "${Qt6Quick_LIBRARIES}" "${Qt6Xml_LIBRARIES}")
