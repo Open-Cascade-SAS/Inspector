@@ -17,6 +17,10 @@
 
 #include <OpenGl_GraphicDriver.hxx>
 
+#if defined(HAVE_XLIB)
+  #include <Xw_DisplayConnection.hxx>
+#endif
+
 // =======================================================================
 // function : CreateView
 // purpose :
@@ -54,7 +58,12 @@ void View_Viewer::InitViewer(const Handle(AIS_InteractiveContext)& theContext)
 // =======================================================================
 Handle(AIS_InteractiveContext) View_Viewer::CreateStandardViewer()
 {
-  Handle(Aspect_DisplayConnection)    aDisplayConnection = new Aspect_DisplayConnection();
+  Handle(Aspect_DisplayConnection) aDisplayConnection =
+  #if defined(HAVE_XLIB)
+    new Xw_DisplayConnection();
+  #else
+    new Aspect_DisplayConnection();
+  #endif
   static Handle(OpenGl_GraphicDriver) aGraphicDriver = new OpenGl_GraphicDriver(aDisplayConnection);
 
   Handle(V3d_Viewer) aViewer = new V3d_Viewer(aGraphicDriver);
